@@ -4,7 +4,7 @@ using Ingredients.Protos;
 
 namespace Ingredients.Services;
 
-public class IngredientsService : Protos.IngredientsService.IngredientsServiceBase
+internal class IngredientsService : Protos.IngredientsService.IngredientsServiceBase
 {
     private readonly IToppingData _toppingData;
     private readonly ILogger<IngredientsService> _logger;
