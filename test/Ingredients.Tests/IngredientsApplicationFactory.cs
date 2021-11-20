@@ -24,20 +24,32 @@ public class IngredientsApplicationFactory : WebApplicationFactory<Marker>
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<IToppingData>();
+            services.RemoveAll<ICrustData>();
 
             var toppingSub = Substitute.For<IToppingData>();
 
-            var entities = new List<ToppingEntity>
+            var toppings = new List<ToppingEntity>
             {
                 new ToppingEntity("cheese", "Cheese", 0.5d, 10),
                 new ToppingEntity("tomato", "Tomato", 0.5d, 10)
             };
 
             toppingSub.GetAsync(Arg.Any<CancellationToken>())
-                .Returns(entities);
+                .Returns(toppings);
 
             services.AddSingleton(toppingSub);
 
+            var crustsSub = Substitute.For<ICrustData>();
+
+            var crusts = new List<CrustEntity>
+            {
+                new CrustEntity("thin", "Thin", 9, 5d, 10),
+            };
+
+            crustsSub.GetAsync(Arg.Any<CancellationToken>())
+                .Returns(crusts);
+
+            services.AddSingleton(crustsSub);
         });
         base.ConfigureWebHost(builder);
     }
