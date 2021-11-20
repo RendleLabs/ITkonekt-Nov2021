@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using CustomTypes;
+using Grpc.Core;
 using Ingredients.Data;
 using Ingredients.Protos;
 
@@ -20,7 +21,7 @@ internal class IngredientsService : Protos.IngredientsService.IngredientsService
     public override async Task<GetToppingsResponse> GetToppings(GetToppingsRequest request, ServerCallContext context)
     {
         _logger.LogInformation("Getting toppings");
-
+        
         try
         {
             var toppings = await _toppingData.GetAsync(context.CancellationToken);

@@ -37,5 +37,17 @@
       <Link>Protos/ingredients.proto</Link>
     </Protobuf>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Protobuf Include="..\..\src\Ingredients\Protos\decimal.proto" GrpcServices="None">
+      <Link>Protos\decimal.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\src\Ingredients\Protos\DecimalValue.cs">
+      <Link>Protos\DecimalValue.cs</Link>
+    </Compile>
+  </ItemGroup>
 
 </Project>

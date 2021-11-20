@@ -7,7 +7,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>((provider, options) =>
 {
-    options.Address = new Uri("https://localhost:5003");
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var uri = configuration.GetServiceUri("Ingredients");
+    options.Address = uri ?? new Uri("https://localhost:5003");
 });
 
 var app = builder.Build();
