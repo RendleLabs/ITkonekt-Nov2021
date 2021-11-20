@@ -1,5 +1,6 @@
 
 using Ingredients.Protos;
+using Orders.PubSub;
 using Orders.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+builder.Services.AddOrderPubSub();
 
 builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>((provider, options) =>
 {
