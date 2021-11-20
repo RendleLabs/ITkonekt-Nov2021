@@ -63,7 +63,15 @@ public class OrderService : Protos.OrderService.OrderServiceBase
                     ToppingIds = { message.ToppingIds },
                     Time = message.Time.ToTimestamp()
                 };
-                await responseStream.WriteAsync(response);
+                try
+                {
+                    await responseStream.WriteAsync(response);
+                }
+                catch
+                {
+                    await _orderPublisher.PublishOrder(message.CrustId, message.ToppingIds, message.Time);
+                    throw;
+                }
             }
             catch (OperationCanceledException)
             {

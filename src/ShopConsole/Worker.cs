@@ -46,6 +46,7 @@ public class Worker : BackgroundService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error: {Message}", ex.Message);
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }
         }
     }
