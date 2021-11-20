@@ -85,4 +85,18 @@ internal class IngredientsService : Protos.IngredientsService.IngredientsService
             throw;
         }
     }
+
+    public override async Task<DecrementCrustsResponse> DecrementCrusts(DecrementCrustsRequest request, ServerCallContext context)
+    {
+        await _crustData.DecrementStockAsync(request.CrustId, context.CancellationToken);
+        return new DecrementCrustsResponse();
+    }
+
+    public override async Task<DecrementToppingsResponse> DecrementToppings(DecrementToppingsRequest request, ServerCallContext context)
+    {
+        var tasks = request.ToppingIds
+            .Select(id => _toppingData.DecrementStockAsync(id, context.CancellationToken));
+        await Task.WhenAll(tasks);
+        return new DecrementToppingsResponse();
+    }
 }

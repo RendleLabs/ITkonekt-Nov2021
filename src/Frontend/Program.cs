@@ -1,4 +1,5 @@
 using Ingredients.Protos;
+using Orders.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,13 @@ builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>((pro
     var configuration = provider.GetRequiredService<IConfiguration>();
     var uri = configuration.GetServiceUri("Ingredients");
     options.Address = uri ?? new Uri("https://localhost:5003");
+});
+
+builder.Services.AddGrpcClient<OrderService.OrderServiceClient>((provider, options) =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var uri = configuration.GetServiceUri("Orders");
+    options.Address = uri ?? new Uri("https://localhost:5005");
 });
 
 var app = builder.Build();
