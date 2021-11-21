@@ -1,3 +1,4 @@
+using Grpc.Net.Client.Configuration;
 using Ingredients.Protos;
 using Orders.Protos;
 
@@ -7,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>((provider, options) =>
-{
-    var configuration = provider.GetRequiredService<IConfiguration>();
-    var uri = configuration.GetServiceUri("Ingredients");
-    options.Address = uri ?? new Uri("https://localhost:5003");
-});
+    {
+        var configuration = provider.GetRequiredService<IConfiguration>();
+        var uri = configuration.GetServiceUri("Ingredients");
+        options.Address = uri ?? new Uri("https://localhost:5003");
+    });
 
 builder.Services.AddGrpcClient<OrderService.OrderServiceClient>((provider, options) =>
 {

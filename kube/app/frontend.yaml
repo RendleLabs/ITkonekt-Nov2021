@@ -10,6 +10,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: frontend
     spec:
@@ -26,6 +28,8 @@ spec:
         env:
         - name: DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2UNENCRYPTEDSUPPORT
           value: 'true'
+        - name: Service__Ingredients__Dns
+          value: 'dns:///ingredients'
         - name: Service__Ingredients__Host
           value: 'ingredients'
         - name: Service__Ingredients__Port
