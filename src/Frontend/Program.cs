@@ -1,8 +1,11 @@
 using Grpc.Net.Client.Configuration;
 using Ingredients.Protos;
+using JaegerTracing;
 using Orders.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.AddJaegerTracing();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

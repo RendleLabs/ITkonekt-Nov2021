@@ -20,6 +20,7 @@ public class ToppingData : IToppingData
     {
         try
         {
+            using var activity = Diagnostics.StartActivity("GetToppings");
             return await _client.QueryAsync<ToppingEntity>(cancellationToken: token).ToListAsync(token);
         }
         catch (Exception ex)

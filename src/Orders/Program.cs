@@ -1,9 +1,12 @@
 
 using Ingredients.Protos;
+using JaegerTracing;
 using Orders.PubSub;
 using Orders.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.AddJaegerTracing();
 
 // Additional configuration is required to successfully run gRPC on macOS.
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682

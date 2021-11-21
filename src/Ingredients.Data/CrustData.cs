@@ -20,6 +20,7 @@ public class CrustData : ICrustData
     {
         try
         {
+            using var activity = Diagnostics.StartActivity("GetCrusts");
             return await _client.QueryAsync<CrustEntity>().ToListAsync(token);
         }
         catch (Exception ex)
