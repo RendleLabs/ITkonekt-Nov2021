@@ -19,18 +19,26 @@ public class OrdersController : Controller
     [HttpPost]
     public async Task<IActionResult> Order([FromForm] HomeViewModel viewModel)
     {
-        var placeOrder = new PlaceOrderRequest
+        try
         {
-            CrustId = viewModel.SelectedCrust,
-            ToppingIds =
+            var placeOrder = new PlaceOrderRequest
             {
-                viewModel.Toppings.Where(t => t.Selected)
-                    .Select(t => t.Id)
-            }
-        };
+                CrustId = viewModel.SelectedCrust,
+                ToppingIds =
+                {
+                    viewModel.Toppings.Where(t => t.Selected)
+                        .Select(t => t.Id)
+                }
+            };
 
-        await _orders.PlaceOrderAsync(placeOrder);
+            await _orders.PlaceOrderAsync(placeOrder);
         
-        return View();
+            return View();
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, ex.Message);
+            throw;
+        }
     }
 }
