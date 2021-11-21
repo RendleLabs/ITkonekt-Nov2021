@@ -1,3 +1,4 @@
+using AuthHelp;
 using Frontend.Auth;
 using Grpc.Core;
 using Ingredients.Protos;
@@ -8,12 +9,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient("ingredients")
+    .ConfigurePrimaryHttpMessageHandler(DevelopmentModeCertificateHelper.CreateClientHandler);
+
 builder.Services.AddGrpcClient<IngredientsService.IngredientsServiceClient>((provider, options) =>
-{
-    var configuration = provider.GetRequiredService<IConfiguration>();
-    var uri = configuration.GetServiceUri("Ingredients");
-    options.Address = uri ?? new Uri("https://localhost:5003");
-});
+    {
+        var configuration = provider.GetRequiredService<IConfiguration>();
+        var uri = configuration.GetServiceUri("Ingredients");
+        options.Address = uri ?? new Uri("https://localhost:5003");
+    })
+    .ConfigureChannel((provider, channel) =>
+    {
+        channel.HttpHandler = null;
+        channel.HttpClient = provider.GetRequiredService<IHttpClientFactory>()
+            .CreateClient("ingredients");
+        channel.DisposeHttpClient = true;
+    });
 
 builder.Services.AddGrpcClient<OrderService.OrderServiceClient>((provider, options) =>
     {
